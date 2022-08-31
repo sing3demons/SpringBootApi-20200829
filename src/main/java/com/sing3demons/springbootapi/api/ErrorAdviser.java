@@ -1,14 +1,13 @@
 package com.sing3demons.springbootapi.api;
 
 import java.time.LocalDateTime;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.ProductException;
+import com.sing3demons.springbootapi.exception.UserException;
 
 import lombok.Data;
 
@@ -24,6 +23,14 @@ public class ErrorAdviser {
 
     @ExceptionHandler(ProductException.class)
     public ResponseEntity<ErrorResponse> handleProductException(ProductException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setError(e.getMessage());
+        response.setStatus(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(response);
+    }
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<ErrorResponse> handleUserException(UserException e) {
         ErrorResponse response = new ErrorResponse();
         response.setError(e.getMessage());
         response.setStatus(HttpStatus.NOT_FOUND.value());

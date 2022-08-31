@@ -4,15 +4,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.sing3demons.springbootapi.business.UserBusiness;
+import com.sing3demons.springbootapi.entity.User;
 import com.sing3demons.springbootapi.exception.BaseException;
+import com.sing3demons.springbootapi.exception.UserException;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
 import com.sing3demons.springbootapi.model.TestResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/api")
 public class UserApi {
     // METHOD: 1 field Injection
     // @Autowired
@@ -24,7 +27,7 @@ public class UserApi {
         this.business = business;
     }
 
-    @GetMapping("/test")
+    @GetMapping("/users")
     public TestResponse test() {
         TestResponse response = new TestResponse();
         response.setName("Sing");
@@ -34,8 +37,8 @@ public class UserApi {
     }
 
     @PostMapping(value = "/register")
-    public ResponseEntity<String> register(@RequestBody MRegisterRequest request) throws BaseException {
-        String response = business.register(request);
+    public ResponseEntity<User> register(@RequestBody MRegisterRequest request) throws UserException {
+        User response = business.register(request);
         return ResponseEntity.ok(response);
     }
 

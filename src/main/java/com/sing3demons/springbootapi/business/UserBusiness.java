@@ -3,27 +3,26 @@ package com.sing3demons.springbootapi.business;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.sing3demons.springbootapi.entity.User;
 import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.FileException;
 import com.sing3demons.springbootapi.exception.UserException;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
+import com.sing3demons.springbootapi.service.UserService;
 
 @Service
 public class UserBusiness {
-    public String register(MRegisterRequest request) throws BaseException {
-        if (request == null) {
-            throw UserException.requestNull();
-        }
+    private final UserService userService;
 
-        if (Objects.isNull(request.getEmail())) {
-            throw UserException.emailNull();
-        }
-        return "" + request;
+    public UserBusiness(UserService userService) {
+        this.userService = userService;
+    }
 
+    public User register(MRegisterRequest request) throws UserException {
+        User user = userService.create(request.getEmail(), request.getPassword(), request.getName());
+        return user;
     }
 
     public String uploadProfilePicture(MultipartFile file) throws BaseException {
@@ -51,4 +50,5 @@ public class UserBusiness {
         }
         return "";
     }
+
 }
