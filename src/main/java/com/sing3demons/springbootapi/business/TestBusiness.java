@@ -41,12 +41,12 @@ public class TestBusiness {
 
         List<String> supportedTypes = Arrays.asList("image/jpeg", "image/png");
         if (!supportedTypes.contains(contentType)) {
+            throw FileException.fileUnsupported();
         }
 
         try {
             byte[] bytes = file.getBytes();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return "";

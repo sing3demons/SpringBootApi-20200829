@@ -3,8 +3,6 @@ package com.sing3demons.springbootapi.business;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
-
-import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.ProductException;
 
 @Service

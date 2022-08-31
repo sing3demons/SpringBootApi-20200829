@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:14.1
+    environment:
+      POSTGRES_DB: springbootapi
+      POSTGRES_USER: kpsing
+      POSTGRES_PASSWORD: syspass
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./_data/pg_data:/var/lib/postgresql/data

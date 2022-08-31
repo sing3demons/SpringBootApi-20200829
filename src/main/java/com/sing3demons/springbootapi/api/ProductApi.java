@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sing3demons.springbootapi.business.ProductBusiness;
-import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.ProductException;
 
 @RestController
