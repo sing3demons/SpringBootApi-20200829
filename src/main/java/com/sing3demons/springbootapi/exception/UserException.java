@@ -26,4 +26,12 @@ public class UserException extends BaseException {
         return new UserException("register.email.duplicated");
     }
 
+    public static UserException loginFailEmailNotFound() {
+        return new UserException("login.fail");
+    }
+
+    public static UserException loginFailPasswordIncorrect() {
+        return new UserException("login.fail");
+    }
+
 }
