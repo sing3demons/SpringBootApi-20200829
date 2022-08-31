@@ -27,7 +27,7 @@ public class UserApi {
         this.business = business;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/auth/users")
     public TestResponse test() {
         TestResponse response = new TestResponse();
         response.setName("Sing");
@@ -36,8 +36,9 @@ public class UserApi {
 
     }
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/auth/register")
     public ResponseEntity<User> register(@RequestBody MRegisterRequest request) throws UserException {
+
         User response = business.register(request);
         return ResponseEntity.ok(response);
     }

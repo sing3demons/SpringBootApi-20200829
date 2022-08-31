@@ -1,6 +1,5 @@
 package com.sing3demons.springbootapi.business;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,7 @@ public class UserBusiness {
     }
 
     public User register(MRegisterRequest request) throws UserException {
-        User user = userService.create(request.getEmail(), request.getPassword(), request.getName());
-        return user;
+        return userService.create(request.getEmail(), request.getPassword(), request.getName());
     }
 
     public String uploadProfilePicture(MultipartFile file) throws BaseException {
@@ -43,11 +41,6 @@ public class UserBusiness {
             throw FileException.fileUnsupported();
         }
 
-        try {
-            byte[] bytes = file.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return "";
     }
 
