@@ -18,9 +18,11 @@ import lombok.Setter;
 public class User extends BaseEntity {
     @Column(nullable = false, unique = true, length = 60)
     private String email;
+
     @Column(nullable = false, length = 120)
     @JsonIgnore
     private String password;
+    
     @Column(nullable = false, length = 120)
     private String name;
 

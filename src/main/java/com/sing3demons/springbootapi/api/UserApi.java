@@ -2,7 +2,6 @@ package com.sing3demons.springbootapi.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.sing3demons.springbootapi.business.UserBusiness;
@@ -13,7 +12,6 @@ import com.sing3demons.springbootapi.mapper.UserMapper;
 import com.sing3demons.springbootapi.model.LoginRequest;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
 import com.sing3demons.springbootapi.model.RegisterResponse;
-import com.sing3demons.springbootapi.model.TestResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -31,27 +31,44 @@ public class UserService {
 
     public User create(String email, String password, String name) throws UserException {
 
-        if (Objects.isNull(email)) {
+        if (Objects.isNull(email))
             throw UserException.emailNull();
-        }
 
-        if (Objects.isNull(password)) {
+        if (Objects.isNull(password))
             throw UserException.passwordNull();
-        }
 
-        if (Objects.isNull(name)) {
+        if (Objects.isNull(name))
             throw UserException.nameNull();
-        }
 
-        if (userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(email))
             throw UserException.emailDuplicated();
-        }
 
         User entity = new User();
         entity.setEmail(email);
         entity.setPassword(passwordEncoder.encode(password));
         entity.setName(name);
 
+        return userRepository.save(entity);
+    }
+
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
+    }
+
+    public User updateName(String id, String name) throws UserException {
+        Optional<User> opt = userRepository.findById(id);
+        if (opt.isEmpty()) {
+            throw UserException.notFound();
+        }
+
+        User user = opt.get();
+        user.setName(name);
+
+        return userRepository.save(user);
+
+    }
+
+    public User updateUser(User entity) {
         return userRepository.save(entity);
     }
 
