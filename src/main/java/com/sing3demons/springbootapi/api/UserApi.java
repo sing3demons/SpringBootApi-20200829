@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sing3demons.springbootapi.business.TestBusiness;
+import com.sing3demons.springbootapi.business.UserBusiness;
 import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
 import com.sing3demons.springbootapi.model.TestResponse;
@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-public class TestApi {
+public class UserApi {
     // METHOD: 1 field Injection
     // @Autowired
 
     // METHOD: 2 Constructor Injection
-    private final TestBusiness business;
+    private final UserBusiness business;
 
-    public TestApi(TestBusiness business) {
+    public UserApi(UserBusiness business) {
         this.business = business;
     }
 

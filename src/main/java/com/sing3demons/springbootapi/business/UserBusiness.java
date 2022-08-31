@@ -13,7 +13,7 @@ import com.sing3demons.springbootapi.exception.UserException;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
 
 @Service
-public class TestBusiness {
+public class UserBusiness {
     public String register(MRegisterRequest request) throws BaseException {
         if (request == null) {
             throw UserException.requestNull();
