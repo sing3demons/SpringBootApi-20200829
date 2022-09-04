@@ -39,7 +39,6 @@ public class UserBusiness {
             // throw login fail, password incorrect
             throw UserException.loginFailPasswordIncorrect();
         }
-        // String token = "jwt";
 
         return user;
     }

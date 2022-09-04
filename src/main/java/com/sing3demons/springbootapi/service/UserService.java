@@ -1,6 +1,6 @@
 package com.sing3demons.springbootapi.service;
 
-import java.util.List;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -51,7 +51,7 @@ public class UserService {
         return userRepository.save(entity);
     }
 
-    public void deleteUser(String id) {
+    public void deleteById(String id) {
         userRepository.deleteById(id);
     }
 
