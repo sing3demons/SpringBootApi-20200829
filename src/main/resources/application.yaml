@@ -11,3 +11,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/springbootapi
     username: kpsing
     password: syspass
+---
+app:
+  token:
+    secret: mySecret
+    issuer: ApringAPIBackend

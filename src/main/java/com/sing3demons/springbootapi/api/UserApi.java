@@ -32,9 +32,9 @@ public class UserApi {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest request) throws UserException {
-        User user = business.login(request);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) throws UserException {
+        String token = business.login(request);
+        return ResponseEntity.ok(token);
 
     }
 

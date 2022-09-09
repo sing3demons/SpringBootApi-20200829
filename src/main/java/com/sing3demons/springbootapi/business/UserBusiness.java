@@ -12,21 +12,24 @@ import com.sing3demons.springbootapi.exception.FileException;
 import com.sing3demons.springbootapi.exception.UserException;
 import com.sing3demons.springbootapi.model.LoginRequest;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
+import com.sing3demons.springbootapi.service.TokenService;
 import com.sing3demons.springbootapi.service.UserService;
 
 @Service
 public class UserBusiness {
     private final UserService userService;
+    private final TokenService tokenService;
 
-    public UserBusiness(UserService userService) {
+    public UserBusiness(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     public User register(MRegisterRequest request) throws UserException {
         return userService.create(request.getEmail(), request.getPassword(), request.getName());
     }
 
-    public User login(LoginRequest request) throws UserException {
+    public String login(LoginRequest request) throws UserException {
         Optional<User> opt = userService.findByEmail(request.getEmail());
         if (opt.isEmpty()) {
             // throw login fail, email not found
@@ -40,7 +43,7 @@ public class UserBusiness {
             throw UserException.loginFailPasswordIncorrect();
         }
 
-        return user;
+        return tokenService.tokenize(user);
     }
 
     public String uploadProfilePicture(MultipartFile file) throws BaseException {
