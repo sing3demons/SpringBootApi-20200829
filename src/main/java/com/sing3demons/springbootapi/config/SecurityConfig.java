@@ -8,8 +8,18 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.sing3demons.springbootapi.config.token.TokenFilterConfigurer;
+import com.sing3demons.springbootapi.service.TokenService;
+
 @EnableWebSecurity
 public class SecurityConfig {
+    private final TokenService filter;
+    
+
+    public SecurityConfig(TokenService filter) {
+        this.filter = filter;
+    }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -20,7 +30,8 @@ public class SecurityConfig {
         http.cors().disable().csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/api/auth/register", "/api/auth/login")
-                .anonymous().anyRequest().authenticated();
+                .anonymous().anyRequest().authenticated()
+                .and().apply(new TokenFilterConfigurer(filter));
         return http.build();
     }
 
