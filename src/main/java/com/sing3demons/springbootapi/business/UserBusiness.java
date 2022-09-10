@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.sing3demons.springbootapi.entity.User;
@@ -14,6 +17,7 @@ import com.sing3demons.springbootapi.model.LoginRequest;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
 import com.sing3demons.springbootapi.service.TokenService;
 import com.sing3demons.springbootapi.service.UserService;
+import com.sing3demons.springbootapi.util.SecurityUtil;
 
 @Service
 public class UserBusiness {
@@ -43,6 +47,22 @@ public class UserBusiness {
             throw UserException.loginFailPasswordIncorrect();
         }
 
+        return tokenService.tokenize(user);
+    }
+
+    public String refreshToken() throws UserException {
+        Optional<String> opt = SecurityUtil.getCurrentUserId();
+        if (opt.isEmpty()) {
+            throw UserException.unauthorized();
+        }
+
+        String userId = opt.get();
+
+        Optional<User> optUser = userService.findByID(userId);
+        if (optUser.isEmpty()) {
+            throw UserException.notFound();
+        }
+        User user = optUser.get();
         return tokenService.tokenize(user);
     }
 

@@ -12,6 +12,8 @@ import com.sing3demons.springbootapi.mapper.UserMapper;
 import com.sing3demons.springbootapi.model.LoginRequest;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
 import com.sing3demons.springbootapi.model.RegisterResponse;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,12 @@ public class UserApi {
     public UserApi(UserBusiness business, UserMapper userMapper) {
         this.business = business;
         this.userMapper = userMapper;
+    }
+
+    @GetMapping("/auth/refresh-token")
+    public ResponseEntity<String> refreshToken() throws UserException {
+        String refreshToken = business.refreshToken();
+        return ResponseEntity.ok().body(refreshToken);
     }
 
     @PostMapping("/auth/login")

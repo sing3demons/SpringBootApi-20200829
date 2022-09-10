@@ -61,6 +61,7 @@ public class TokenFilter extends GenericFilterBean {
                 "(protected)", authorities);
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(authenticationToken);
+        arg2.doFilter(requestServlet, responseServlet);
     }
 
 }

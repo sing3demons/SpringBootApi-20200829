@@ -25,6 +25,10 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
+    public Optional<User> findByID(String id) {
+        return userRepository.findById(id);
+    }
+
     public boolean matchPassword(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
@@ -71,5 +75,7 @@ public class UserService {
     public User updateUser(User entity) {
         return userRepository.save(entity);
     }
+
+  
 
 }

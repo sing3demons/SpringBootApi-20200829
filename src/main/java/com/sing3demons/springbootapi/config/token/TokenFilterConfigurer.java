@@ -7,17 +7,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.sing3demons.springbootapi.service.TokenService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class TokenFilterConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
     private final TokenService service;
-
-    public TokenFilterConfigurer(TokenService service) {
-        this.service = service;
-    }
 
     @Override
     public void configure(HttpSecurity builder) throws Exception {
         TokenFilter filter = new TokenFilter(service);
         builder.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
     }
-
 }
