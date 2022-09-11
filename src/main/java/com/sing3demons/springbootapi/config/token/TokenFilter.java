@@ -29,13 +29,6 @@ public class TokenFilter extends GenericFilterBean {
 
     private final TokenService tokenService;
 
-    /*
-     * @RequiredArgsConstructor
-     * public TokenFilter(TokenService tokenService) {
-     * this.tokenService = tokenService;
-     * }
-     */
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
