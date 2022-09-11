@@ -22,34 +22,39 @@ import org.springframework.web.filter.GenericFilterBean;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sing3demons.springbootapi.service.TokenService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class TokenFilter extends GenericFilterBean {
 
     private final TokenService tokenService;
 
-    public TokenFilter(TokenService tokenService) {
-        this.tokenService = tokenService;
-    }
+    /*
+     * @RequiredArgsConstructor
+     * public TokenFilter(TokenService tokenService) {
+     * this.tokenService = tokenService;
+     * }
+     */
 
     @Override
-    public void doFilter(ServletRequest requestServlet, ServletResponse responseServlet, FilterChain arg2)
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) requestServlet;
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
         String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (ObjectUtils.isEmpty(authorization)) {
-            arg2.doFilter(requestServlet, responseServlet);
+            filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
         if (!authorization.startsWith("Bearer ")) {
-            arg2.doFilter(requestServlet, responseServlet);
+            filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
 
         String token = authorization.substring(7);
         DecodedJWT verify = tokenService.verify(token);
         if (verify == null) {
-            arg2.doFilter(requestServlet, responseServlet);
-
+            filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
         String sub = verify.getSubject();
@@ -61,7 +66,8 @@ public class TokenFilter extends GenericFilterBean {
                 "(protected)", authorities);
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(authenticationToken);
-        arg2.doFilter(requestServlet, responseServlet);
+        filterChain.doFilter(servletRequest, servletResponse);
+
     }
 
 }
