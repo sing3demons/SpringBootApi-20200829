@@ -11,6 +11,7 @@ import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.FileException;
 import com.sing3demons.springbootapi.exception.UserException;
 import com.sing3demons.springbootapi.model.LoginRequest;
+import com.sing3demons.springbootapi.model.LoginResponse;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
 import com.sing3demons.springbootapi.service.TokenService;
 import com.sing3demons.springbootapi.service.UserService;
@@ -30,7 +31,7 @@ public class UserBusiness {
         return userService.create(request.getEmail(), request.getPassword(), request.getName());
     }
 
-    public String login(LoginRequest request) throws UserException {
+    public LoginResponse login(LoginRequest request) throws UserException {
         Optional<User> opt = userService.findByEmail(request.getEmail());
         if (opt.isEmpty()) {
             // throw login fail, email not found
@@ -44,7 +45,12 @@ public class UserBusiness {
             throw UserException.loginFailPasswordIncorrect();
         }
 
-        return tokenService.tokenize(user);
+        LoginResponse response = new LoginResponse();
+
+        String token = tokenService.tokenize(user);
+        response.setToken(token);
+
+        return response;
     }
 
     public String refreshToken() throws UserException {

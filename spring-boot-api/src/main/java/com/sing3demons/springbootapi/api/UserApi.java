@@ -10,6 +10,7 @@ import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.UserException;
 import com.sing3demons.springbootapi.mapper.UserMapper;
 import com.sing3demons.springbootapi.model.LoginRequest;
+import com.sing3demons.springbootapi.model.LoginResponse;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
 import com.sing3demons.springbootapi.model.RegisterResponse;
 
@@ -40,8 +41,8 @@ public class UserApi {
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) throws UserException {
-        String token = business.login(request);
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) throws UserException {
+        LoginResponse token = business.login(request);
         return ResponseEntity.ok(token);
 
     }

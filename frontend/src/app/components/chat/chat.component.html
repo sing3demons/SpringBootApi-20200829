@@ -1,10 +1,11 @@
+<app-header></app-header>
 <h2>Global Chat</h2>
 <div>
     Connected: {{isConnected}}
 </div>
 <form [formGroup]="chatFormGroup" (ngSubmit)="onSubmit()">
     <input type="text" formControlName="message" placeholder="Message">
-    <input type="submit" value="Send" [disabled]="chatFormGroup.invalid">
+    <button type="submit" class="btn btn-primary" value="Send" [disabled]="chatFormGroup.invalid">Send</button>
 </form>
 
 <h3>Message</h3>
