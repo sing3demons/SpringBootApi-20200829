@@ -1,5 +1,7 @@
 package com.sing3demons.springbootapi.config;
 
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -26,8 +28,11 @@ public class SecurityConfig {
     }
 
     private final String[] authorizedUrl = {
-            "/actuator/**", "/api/auth/register", "/api/auth/login",
-            "/socket"
+            "/actuator/**",
+            "/api/auth/register",
+            "/api/auth/login",
+            "/socket/**",
+            "/chat/**"
     };
 
     @Bean
@@ -61,14 +66,14 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:4200");
+        config.setAllowedOriginPatterns(Arrays.asList("http://localhost*"));
         config.addAllowedHeader("*");
         config.addAllowedMethod(HttpMethod.OPTIONS);
         config.addAllowedMethod(HttpMethod.POST);
         config.addAllowedMethod(HttpMethod.GET);
         config.addAllowedMethod(HttpMethod.PUT);
         config.addAllowedMethod(HttpMethod.DELETE);
-        source.registerCorsConfiguration("/*", config);
+        source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
 

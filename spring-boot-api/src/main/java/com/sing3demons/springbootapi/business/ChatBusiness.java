@@ -18,7 +18,7 @@ public class ChatBusiness {
     private final SimpMessagingTemplate template;
 
     public void post(ChatMessageRequest request) throws ChatException {
-        final String destination = "chat";
+        final String destination = "/topic/chat";
 
         Optional<String> opt = SecurityUtil.getCurrentUserId();
         if (opt.isEmpty()) {
