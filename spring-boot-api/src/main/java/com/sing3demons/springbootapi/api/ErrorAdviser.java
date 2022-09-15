@@ -15,7 +15,7 @@ import lombok.Data;
 public class ErrorAdviser {
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ErrorResponse> handleBaseException(BaseException e) {
-        ErrorResponse response = new ErrorResponse();
+        ErrorResponse response = new ErrorResponse(); 
         response.setError(e.getMessage());
         response.setStatus(HttpStatus.EXPECTATION_FAILED.value());
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(response);

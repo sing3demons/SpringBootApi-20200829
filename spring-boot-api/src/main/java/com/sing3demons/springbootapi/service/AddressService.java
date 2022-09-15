@@ -22,7 +22,6 @@ public class AddressService {
     }
 
     public Address create(User user, String line1, String line2, String zipcode) {
-        // TODO: validate
 
         // create
         Address entity = new Address();
@@ -34,5 +33,5 @@ public class AddressService {
 
         return addressRepository.save(entity);
     }
-    
+
 }

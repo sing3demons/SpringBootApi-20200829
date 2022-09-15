@@ -1,6 +1,6 @@
 package com.sing3demons.springbootapi.config;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+
 
 import com.sing3demons.springbootapi.config.token.TokenFilterConfigurer;
 import com.sing3demons.springbootapi.service.TokenService;
@@ -32,7 +32,6 @@ public class SecurityConfig {
             "/api/auth/register",
             "/api/auth/login",
             "/socket/**",
-            "/chat/**"
     };
 
     @Bean
@@ -42,7 +41,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().disable().csrf().disable().sessionManagement()
+        http.cors(config -> {
+            CorsConfiguration cors = new CorsConfiguration();
+            cors.setAllowCredentials(true);
+            cors.setAllowedOriginPatterns(Collections.singletonList("http://*"));
+            cors.addAllowedHeader("*");
+            cors.addAllowedMethod(HttpMethod.OPTIONS);
+            cors.addAllowedMethod(HttpMethod.POST);
+            cors.addAllowedMethod(HttpMethod.GET);
+            cors.addAllowedMethod(HttpMethod.PUT);
+            cors.addAllowedMethod(HttpMethod.DELETE);
+
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            source.registerCorsConfiguration("/**", cors);
+
+            config.configurationSource(source);
+        }).csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
                 .antMatchers(authorizedUrl)
@@ -59,22 +73,6 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
         return authConfiguration.getAuthenticationManager();
-    }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(Arrays.asList("http://localhost*"));
-        config.addAllowedHeader("*");
-        config.addAllowedMethod(HttpMethod.OPTIONS);
-        config.addAllowedMethod(HttpMethod.POST);
-        config.addAllowedMethod(HttpMethod.GET);
-        config.addAllowedMethod(HttpMethod.PUT);
-        config.addAllowedMethod(HttpMethod.DELETE);
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
     }
 
 }
