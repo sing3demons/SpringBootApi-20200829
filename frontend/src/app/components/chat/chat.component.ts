@@ -52,6 +52,9 @@ export class ChatComponent implements OnInit {
     }
 
     // validate message
-    this.chatService.postMessage(message).subscribe();
+    this.chatService.postMessage(message).subscribe(
+      (msg) => {},
+      (error) => console.log(error)
+    );
   }
 }

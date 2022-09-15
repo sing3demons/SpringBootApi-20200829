@@ -14,12 +14,11 @@ export class AppCookieService {
     return this.cookieService.set(this.ACCESS_TOKEN, token);
   }
 
-  getAccessToken(token: string) {
+  getAccessToken(): string {
     if (this.cookieService.get(this.ACCESS_TOKEN) === undefined) {
       console.log('fff');
 
       this.router.navigate(['/login']);
-      return;
     }
     console.log('ddd');
     return this.cookieService.get(this.ACCESS_TOKEN);
