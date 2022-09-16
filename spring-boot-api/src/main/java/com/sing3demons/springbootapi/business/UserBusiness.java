@@ -4,8 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.stereotype.Service;
+
 import com.sing3demons.springbootapi.entity.User;
 import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.FileException;
@@ -17,18 +18,33 @@ import com.sing3demons.springbootapi.service.TokenService;
 import com.sing3demons.springbootapi.service.UserService;
 import com.sing3demons.springbootapi.util.SecurityUtil;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 @Service
+@Log4j2
+@RequiredArgsConstructor
 public class UserBusiness {
     private final UserService userService;
     private final TokenService tokenService;
-
-    public UserBusiness(UserService userService, TokenService tokenService) {
-        this.userService = userService;
-        this.tokenService = tokenService;
-    }
+    private final EmailBusiness emailBusiness;
 
     public User register(MRegisterRequest request) throws UserException {
-        return userService.create(request.getEmail(), request.getPassword(), request.getName());
+        String token = SecurityUtil.generateToken();
+        User user = userService.create(request.getEmail(), request.getPassword(), request.getName(), token);
+        sendEmail(user);
+        return user;
+    }
+
+    private void sendEmail(User user) {
+
+        String token = user.getToken();
+        try {
+            emailBusiness.sendActivateUserEmail(user.getEmail(), user.getName(), token);
+        } catch (BaseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public LoginResponse login(LoginRequest request) throws UserException {

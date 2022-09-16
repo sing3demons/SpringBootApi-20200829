@@ -1,0 +1,17 @@
+{
+  "folders": [
+	{
+		"path": "../../../../../../.."
+	},
+	{
+		"path": "../../../../../../../../common"
+	},
+	{
+		"path": "../../../../../../../../email"
+	}
+],
+  "settings": {
+    "java.dependency.packagePresentation": "hierarchical",
+    "java.configuration.updateBuildConfiguration": "interactive"
+  }
+}

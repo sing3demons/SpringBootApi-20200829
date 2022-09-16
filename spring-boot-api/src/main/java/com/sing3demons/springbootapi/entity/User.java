@@ -1,5 +1,6 @@
 package com.sing3demons.springbootapi.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -38,4 +39,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Address> addresses;
 
+    private String token;
+    private Date tokenExpire;
+    private boolean activated;
 }

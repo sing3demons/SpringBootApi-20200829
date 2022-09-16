@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-
 import com.sing3demons.springbootapi.config.token.TokenFilterConfigurer;
 import com.sing3demons.springbootapi.service.TokenService;
 

@@ -19,7 +19,7 @@ public class UserSchedule {
     /**
      * Every minute (UTC Time)
      */
-    @Scheduled(cron = "0 * * * * *")
+    // @Scheduled(cron = "0 * * * * *")
     public void testEveryMinute() {
         log.info("Every Minute");
     }
@@ -35,7 +35,7 @@ public class UserSchedule {
     /**
      * Everyday at 10:50 AM (Thai Time)
      */
-    @Scheduled(cron = "0 50 10 * * *", zone = "Asia/Bangkok")
+    // @Scheduled(cron = "0 50 10 * * *", zone = "Asia/Bangkok")
     public void testEverydayNineAM() {
         log.info("At Specific Time");
     }

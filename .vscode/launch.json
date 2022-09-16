@@ -1,0 +1,34 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-SpringBootApiApplication<spring-boot-api>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.sing3demons.springbootapi.SpringBootApiApplication",
+      "projectName": "spring-boot-api",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-EmailApplication<email>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.sing3demons.email.EmailApplication",
+      "projectName": "email",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-CommonApplication<common>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.sing3demons.common.CommonApplication",
+      "projectName": "common",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "app.email.from",
+    "type": "java.lang.String",
+    "description": "A description for 'app.email.from'"
+  },
+  {
+    "name": "app.token.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'app.token.secret'"
+  },
+  {
+    "name": "app.token.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'app.token.secret'"
+  },
+  {
+    "name": "app.token.issuer",
+    "type": "java.lang.String",
+    "description": "A description for 'app.token.issuer'"
+  }
+]}

@@ -1,6 +1,7 @@
 package com.sing3demons.springbootapi.service;
 
-
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class UserService {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
-    public User create(String email, String password, String name) throws UserException {
+    public User create(String email, String password, String name, String token) throws UserException {
 
         if (Objects.isNull(email))
             throw UserException.emailNull();
@@ -51,8 +52,17 @@ public class UserService {
         entity.setEmail(email);
         entity.setPassword(passwordEncoder.encode(password));
         entity.setName(name);
+        entity.setToken(token);
+        entity.setTokenExpire(nextXMinute(30));
 
         return userRepository.save(entity);
+    }
+
+    private Date nextXMinute(int minute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, minute);
+        return calendar.getTime();
+
     }
 
     public void deleteById(String id) {
@@ -75,7 +85,5 @@ public class UserService {
     public User updateUser(User entity) {
         return userRepository.save(entity);
     }
-
-  
 
 }

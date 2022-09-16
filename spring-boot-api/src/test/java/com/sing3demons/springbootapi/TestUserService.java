@@ -18,6 +18,7 @@ import com.sing3demons.springbootapi.exception.UserException;
 import com.sing3demons.springbootapi.service.AddressService;
 import com.sing3demons.springbootapi.service.SocialService;
 import com.sing3demons.springbootapi.service.UserService;
+import com.sing3demons.springbootapi.util.SecurityUtil;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -34,7 +35,8 @@ public class TestUserService {
     @Order(1)
     @Test
     void testCreate() throws UserException {
-        User user = service.create(TestData.email, TestData.password, TestData.name);
+        String token = SecurityUtil.generateToken();
+        User user = service.create(TestData.email, TestData.password, TestData.name, token);
         Assertions.assertNotNull(user);
 
         Assertions.assertEquals(TestData.email, user.getEmail());
