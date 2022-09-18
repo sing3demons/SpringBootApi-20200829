@@ -42,4 +42,34 @@ public class UserException extends BaseException {
         return new UserException("user.not.found");
     }
 
+    public static UserException loginFailUserUnactivated() {
+        return new UserException("login.fail.unactivated");
+    }
+    
+    public static UserException activateAlready() {
+        return new UserException("activate.already");
+    }
+
+    public static UserException activateNoToken() {
+        return new UserException("activate.no.token");
+    }
+
+    public static UserException activateFail() {
+        return new UserException("activate.fail");
+    }
+
+    public static UserException activateTokenExpire() {
+        return new UserException("activate.token.expire");
+    }
+
+    // RESEND ACTIVATION EMAIL
+
+    public static UserException resendActivationEmailNoEmail() {
+        return new UserException("resend.activation.no.email");
+    }
+
+    public static UserException resendActivationEmailNotFound() {
+        return new UserException("resend.activation.fail");
+    }
+
 }

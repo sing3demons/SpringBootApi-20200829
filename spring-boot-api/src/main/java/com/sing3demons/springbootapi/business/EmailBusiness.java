@@ -15,7 +15,6 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import com.sing3demons.common.EmailRequest;
 import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.EmailException;
-import com.sing3demons.springbootapi.service.EmailService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

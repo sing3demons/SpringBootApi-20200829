@@ -30,6 +30,8 @@ public class SecurityConfig {
             "/actuator/**",
             "/api/auth/register",
             "/api/auth/login",
+            "/api/user/activate",
+            "/api/user/resend-activation-email",
             "/socket/**",
     };
 

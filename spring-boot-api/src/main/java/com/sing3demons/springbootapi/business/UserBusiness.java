@@ -1,6 +1,8 @@
 package com.sing3demons.springbootapi.business;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,18 +13,20 @@ import com.sing3demons.springbootapi.entity.User;
 import com.sing3demons.springbootapi.exception.BaseException;
 import com.sing3demons.springbootapi.exception.FileException;
 import com.sing3demons.springbootapi.exception.UserException;
+import com.sing3demons.springbootapi.model.ActivateRequest;
+import com.sing3demons.springbootapi.model.ActivateResponse;
 import com.sing3demons.springbootapi.model.LoginRequest;
 import com.sing3demons.springbootapi.model.LoginResponse;
 import com.sing3demons.springbootapi.model.MRegisterRequest;
+import com.sing3demons.springbootapi.model.ResendActivationEmailRequest;
 import com.sing3demons.springbootapi.service.TokenService;
 import com.sing3demons.springbootapi.service.UserService;
 import com.sing3demons.springbootapi.util.SecurityUtil;
 
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 
 @Service
-@Log4j2
 @RequiredArgsConstructor
 public class UserBusiness {
     private final UserService userService;
@@ -47,6 +51,39 @@ public class UserBusiness {
 
     }
 
+    public ActivateResponse activate(ActivateRequest request) throws BaseException {
+        String token = request.getToken();
+        if (StringUtil.isNullOrEmpty(token)) {
+            throw UserException.activateNoToken();
+        }
+
+        Optional<User> opt = userService.findByToken(token);
+        if (opt.isEmpty()) {
+            throw UserException.activateFail();
+        }
+
+        User user = opt.get();
+
+        if (user.isActivated()) {
+            throw UserException.activateAlready();
+        }
+        
+        Date now = new Date();
+        Date expireDate = user.getTokenExpire();
+        if (now.after(expireDate)) {
+            // re-email
+            throw UserException.activateTokenExpire();
+        }
+
+        user.setActivated(true);
+
+        userService.updateUser(user);
+        ActivateResponse response = new ActivateResponse();
+        response.setSuccess(true);
+        return response;
+
+    }
+
     public LoginResponse login(LoginRequest request) throws UserException {
         Optional<User> opt = userService.findByEmail(request.getEmail());
         if (opt.isEmpty()) {
@@ -61,12 +98,46 @@ public class UserBusiness {
             throw UserException.loginFailPasswordIncorrect();
         }
 
-        LoginResponse response = new LoginResponse();
+        // verify activate status
+        if (!user.isActivated()) {
+            throw UserException.loginFailUserUnactivated();
+        }
 
+        LoginResponse response = new LoginResponse();
         String token = tokenService.tokenize(user);
         response.setToken(token);
 
         return response;
+    }
+
+    public void resendActivationEmail(ResendActivationEmailRequest request) throws BaseException {
+        String email = request.getEmail();
+        if (StringUtil.isNullOrEmpty(email)) {
+            throw UserException.resendActivationEmailNoEmail();
+        }
+
+        Optional<User> opt = userService.findByEmail(email);
+        if (opt.isEmpty()) {
+            throw UserException.resendActivationEmailNotFound();
+        }
+
+        User user = opt.get();
+
+        if (user.isActivated()) {
+            throw UserException.activateAlready();
+        }
+
+        user.setToken(SecurityUtil.generateToken());
+        user.setTokenExpire(nextXMinute(30));
+        user = userService.updateUser(user);
+
+        sendEmail(user);
+    }
+
+    private Date nextXMinute(int minute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, minute);
+        return calendar.getTime();
     }
 
     public String refreshToken() throws UserException {
